@@ -69,7 +69,7 @@ if 'gdf_daejeon' in locals() and 'gdf_grid' in locals():
     }
 
     # One Person Grid 레이어 추가
-    grid_layer = folium.FeatureGroup(name="One Person Grid", show=False)
+    grid_layer = folium.FeatureGroup(name="One Person Grid", show=True)  # 기본 활성화
     folium.GeoJson(
         gdf_grid,
         style_function=lambda x: {
