@@ -41,7 +41,7 @@ if 'gdf' in locals():
         name="Daejeon Boundary (WGS84)",
         style_function=lambda x: {
             "fillColor": "transparent",  # 내부 비우기
-            "color": "yellow",           # 경계선 검정색
+            "color": "black",           # 경계선 검정색
             "weight": 4,                # 경계선 두께
             "fillOpacity": 0,           # 내부 투명도
         },
