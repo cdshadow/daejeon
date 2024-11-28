@@ -14,7 +14,7 @@ st.set_page_config(page_title="Daejeon 1in Map", layout="wide")
 # 중앙에 타이틀 표시
 st.markdown(
     """
-    <h1 style="text-align: left; margin-bottom: 20px;">2023년 대전광역시 1인 가구수(1km 격자)</h1>
+    <h1 style="text-align: left; margin-bottom: 20px;">2022년 대전광역시 1인 가구수(1km 격자)</h1>
     """,
     unsafe_allow_html=True,
 )
