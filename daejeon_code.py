@@ -44,7 +44,7 @@ if 'gdf_grid' in locals():
 # 지도 생성
 if 'gdf_daejeon' in locals() and 'gdf_grid' in locals():
     center = [gdf_daejeon.geometry.centroid.y.mean(), gdf_daejeon.geometry.centroid.x.mean()]
-    m = folium.Map(location=center, zoom_start=12)
+    m = folium.Map(location=center, zoom_start=11)
 
     # Daejeon Boundary 레이어 추가
     daejeon_layer = folium.FeatureGroup(name="Daejeon Boundary", show=True)
