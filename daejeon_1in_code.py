@@ -73,10 +73,10 @@ if 'gdf_daejeon' in locals() and 'gdf_grid' in locals():
     folium.GeoJson(
         gdf_grid,
         style_function=lambda x: {
-            "fillColor": colormap.get(x['properties']['category'], "transparent"),  # 단계에 따른 색상
-            "color": "black",  # 경계선 검정색
-            "weight": 1,       # 경계선 두께
-            "fillOpacity": 0.7,  # 내부 투명도
+            "fillColor": "transparent" if x['properties']['sum'] == 0 else colormap.get(x['properties']['category'], "transparent"),
+            "color": "black" if x['properties']['sum'] != 0 else "transparent",  # 경계선 검정색 또는 투명
+            "weight": 1 if x['properties']['sum'] != 0 else 0,  # 경계선 두께
+            "fillOpacity": 0 if x['properties']['sum'] == 0 else 0.7,  # 내부 투명도
         },
         tooltip=folium.GeoJsonTooltip(fields=['sum'], aliases=['Sum Value']),  # 툴팁에 'sum' 값 표시
     ).add_to(grid_layer)
