@@ -2,6 +2,7 @@ import streamlit as st
 import geopandas as gpd
 import folium
 from streamlit_folium import st_folium
+import numpy as np
 
 # GitHub에서 shapefile 경로 설정
 SHAPEFILE_URL_DAEJEON = "https://raw.githubusercontent.com/cdshadow/daejeon/main/daejeon.shp"
@@ -32,6 +33,14 @@ try:
 except Exception as e:
     st.error(f"Failed to load or transform shapefiles: {e}")
 
+# 'sum' 변수 확인 및 단계 생성
+if 'gdf_grid' in locals():
+    if 'sum' in gdf_grid.columns:
+        # 5단계로 나누기
+        gdf_grid['category'] = np.digitize(gdf_grid['sum'], bins=np.linspace(gdf_grid['sum'].min(), gdf_grid['sum'].max(), 6))
+    else:
+        st.error("The 'sum' column is missing in the grid shapefile.")
+
 # 지도 생성
 if 'gdf_daejeon' in locals() and 'gdf_grid' in locals():
     center = [gdf_daejeon.geometry.centroid.y.mean(), gdf_daejeon.geometry.centroid.x.mean()]
@@ -49,16 +58,26 @@ if 'gdf_daejeon' in locals() and 'gdf_grid' in locals():
         },
     ).add_to(m)
 
+    # 그라데이션 컬러맵 생성 (빨간색 계열)
+    colormap = {
+        1: "#ffcccc",  # Light red
+        2: "#ff9999",  # Medium light red
+        3: "#ff6666",  # Medium red
+        4: "#ff3333",  # Medium dark red
+        5: "#ff0000",  # Dark red
+    }
+
     # One Person Grid GeoDataFrame을 지도에 추가
     folium.GeoJson(
         gdf_grid,
         name="One Person Grid",
         style_function=lambda x: {
-            "fillColor": "yellow",       # 내부 노란색
-            "color": "black",              # 경계선 빨간색
-            "weight": 1,                 # 경계선 두께
-            "fillOpacity": 0.3,          # 내부 투명도
+            "fillColor": colormap.get(x['properties']['category'], "transparent"),  # 단계에 따른 색상
+            "color": "black",  # 경계선 검정색
+            "weight": 1,       # 경계선 두께
+            "fillOpacity": 0.7,  # 내부 투명도
         },
+        tooltip=folium.GeoJsonTooltip(fields=['sum'], aliases=['Sum Value']),  # 툴팁에 'sum' 값 표시
     ).add_to(m)
 
     # Streamlit에 지도 표시
