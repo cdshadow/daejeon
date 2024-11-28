@@ -46,17 +46,18 @@ if 'gdf_daejeon' in locals() and 'gdf_grid' in locals():
     center = [gdf_daejeon.geometry.centroid.y.mean(), gdf_daejeon.geometry.centroid.x.mean()]
     m = folium.Map(location=center, zoom_start=10)
 
-    # Daejeon Boundary GeoDataFrame을 지도에 추가
+    # Daejeon Boundary 레이어 추가
+    daejeon_layer = folium.FeatureGroup(name="Daejeon Boundary", show=True)
     folium.GeoJson(
         gdf_daejeon,
-        name="Daejeon Boundary",
         style_function=lambda x: {
             "fillColor": "transparent",  # 내부 비우기
             "color": "blue",             # 경계선 파란색
             "weight": 4,                 # 경계선 두께
             "fillOpacity": 0,            # 내부 투명도
         },
-    ).add_to(m)
+    ).add_to(daejeon_layer)
+    daejeon_layer.add_to(m)
 
     # 그라데이션 컬러맵 생성 (빨간색 계열)
     colormap = {
@@ -67,10 +68,10 @@ if 'gdf_daejeon' in locals() and 'gdf_grid' in locals():
         5: "#ff0000",  # Dark red
     }
 
-    # One Person Grid GeoDataFrame을 지도에 추가
+    # One Person Grid 레이어 추가
+    grid_layer = folium.FeatureGroup(name="One Person Grid", show=False)
     folium.GeoJson(
         gdf_grid,
-        name="One Person Grid",
         style_function=lambda x: {
             "fillColor": colormap.get(x['properties']['category'], "transparent"),  # 단계에 따른 색상
             "color": "black",  # 경계선 검정색
@@ -78,7 +79,11 @@ if 'gdf_daejeon' in locals() and 'gdf_grid' in locals():
             "fillOpacity": 0.7,  # 내부 투명도
         },
         tooltip=folium.GeoJsonTooltip(fields=['sum'], aliases=['Sum Value']),  # 툴팁에 'sum' 값 표시
-    ).add_to(m)
+    ).add_to(grid_layer)
+    grid_layer.add_to(m)
+
+    # 레이어 컨트롤 추가
+    folium.LayerControl().add_to(m)
 
     # Streamlit에 지도 표시
     st_folium(m, width=700, height=500)
