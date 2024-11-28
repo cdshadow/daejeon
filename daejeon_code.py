@@ -17,11 +17,9 @@ st.title("Daejeon Administrative Boundary and Grid (WGS84)")
 def load_and_transform_shapefile(url):
     # Shapefile 데이터 로드
     gdf = gpd.read_file(url)
-    st.write("Original CRS:", gdf.crs)
     
     # 좌표계를 EPSG:4326으로 변환
     gdf = gdf.to_crs(epsg=4326)
-    st.write("Transformed CRS:", gdf.crs)
     
     return gdf
 
@@ -29,17 +27,13 @@ def load_and_transform_shapefile(url):
 try:
     gdf_daejeon = load_and_transform_shapefile(SHAPEFILE_URL_DAEJEON)
     gdf_grid = load_and_transform_shapefile(SHAPEFILE_URL_GRID)
-    st.write("Shapefiles loaded and transformed successfully!")
 except Exception as e:
     st.error(f"Failed to load or transform shapefiles: {e}")
 
 # 'sum' 변수 확인 및 단계 생성
-if 'gdf_grid' in locals():
-    if 'sum' in gdf_grid.columns:
-        # 5단계로 나누기
-        gdf_grid['category'] = np.digitize(gdf_grid['sum'], bins=np.linspace(gdf_grid['sum'].min(), gdf_grid['sum'].max(), 6))
-    else:
-        st.error("The 'sum' column is missing in the grid shapefile.")
+if 'gdf_grid' in locals() and 'sum' in gdf_grid.columns:
+    # 5단계로 나누기
+    gdf_grid['category'] = np.digitize(gdf_grid['sum'], bins=np.linspace(gdf_grid['sum'].min(), gdf_grid['sum'].max(), 6))
 
 # 지도 생성
 if 'gdf_daejeon' in locals() and 'gdf_grid' in locals():
