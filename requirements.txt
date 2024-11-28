@@ -1,0 +1,12 @@
+streamlit==1.37.1
+pandas
+matplotlib
+seaborn
+pillow
+plotly
+geopandas
+folium
+requests
+shapely
+streamlit-folium
+geopy
