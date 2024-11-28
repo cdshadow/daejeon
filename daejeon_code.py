@@ -11,7 +11,13 @@ SHAPEFILE_URL_GRID = "https://raw.githubusercontent.com/cdshadow/daejeon/main/on
 # Streamlit 페이지 설정
 st.set_page_config(page_title="Daejeon Map", layout="wide")
 
-st.title("대전 1인 가구")
+# 중앙에 타이틀 표시
+st.markdown(
+    """
+    <h1 style="text-align: center; margin-bottom: 20px;">대전 1인 가구</h1>
+    """,
+    unsafe_allow_html=True,
+)
 
 @st.cache_data
 def load_and_transform_shapefile(url):
