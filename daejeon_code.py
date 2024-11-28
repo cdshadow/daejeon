@@ -35,15 +35,15 @@ if 'gdf' in locals():
     center = [gdf.geometry.centroid.y.mean(), gdf.geometry.centroid.x.mean()]
     m = folium.Map(location=center, zoom_start=10)
 
-    # GeoDataFrame을 folium으로 추가
+    # GeoDataFrame을 folium으로 추가 (내부 비우기, 경계선 검정색)
     folium.GeoJson(
         gdf,
         name="Daejeon Boundary (WGS84)",
         style_function=lambda x: {
-            "fillColor": "blue",
-            "color": "black",
-            "weight": 1,
-            "fillOpacity": 0.4,
+            "fillColor": "transparent",  # 내부 비우기
+            "color": "black",           # 경계선 검정색
+            "weight": 2,                # 경계선 두께
+            "fillOpacity": 0,           # 내부 투명도
         },
     ).add_to(m)
 
