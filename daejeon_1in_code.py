@@ -9,7 +9,7 @@ SHAPEFILE_URL_DAEJEON = "https://raw.githubusercontent.com/cdshadow/daejeon/main
 SHAPEFILE_URL_GRID = "https://raw.githubusercontent.com/cdshadow/daejeon/main/one_person_grid.shp"
 
 # Streamlit 페이지 설정
-st.set_page_config(page_title="Daejeon Map", layout="wide")
+st.set_page_config(page_title="Daejeon 1in Map", layout="wide")
 
 # 중앙에 타이틀 표시
 st.markdown(
