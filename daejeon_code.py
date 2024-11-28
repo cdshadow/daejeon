@@ -9,20 +9,26 @@ SHAPEFILE_URL = "https://raw.githubusercontent.com/cdshadow/daejeon/main/daejeon
 # Streamlit 페이지 설정
 st.set_page_config(page_title="Daejeon Map", layout="wide")
 
-st.title("Daejeon Administrative Boundary")
+st.title("Daejeon Administrative Boundary (WGS84)")
 
 @st.cache_data
-def load_shapefile(url):
+def load_and_transform_shapefile(url):
     # Shapefile 데이터 로드
     gdf = gpd.read_file(url)
+    st.write("Original CRS:", gdf.crs)
+    
+    # 좌표계를 EPSG:4326으로 변환
+    gdf = gdf.to_crs(epsg=4326)
+    st.write("Transformed CRS:", gdf.crs)
+    
     return gdf
 
-# Shapefile 데이터 읽기
+# Shapefile 데이터 읽기 및 변환
 try:
-    gdf = load_shapefile(SHAPEFILE_URL)
-    st.write("Shapefile loaded successfully!")
+    gdf = load_and_transform_shapefile(SHAPEFILE_URL)
+    st.write("Shapefile loaded and transformed successfully!")
 except Exception as e:
-    st.error(f"Failed to load shapefile: {e}")
+    st.error(f"Failed to load or transform shapefile: {e}")
 
 # 지도 생성
 if 'gdf' in locals():
@@ -32,7 +38,7 @@ if 'gdf' in locals():
     # GeoDataFrame을 folium으로 추가
     folium.GeoJson(
         gdf,
-        name="Daejeon Boundary",
+        name="Daejeon Boundary (WGS84)",
         style_function=lambda x: {
             "fillColor": "blue",
             "color": "black",
