@@ -11,7 +11,7 @@ SHAPEFILE_URL_GRID = "https://raw.githubusercontent.com/cdshadow/daejeon/main/on
 # Streamlit 페이지 설정
 st.set_page_config(page_title="Daejeon Map", layout="wide")
 
-st.title("Daejeon Administrative Boundary and Grid (WGS84)")
+st.title("대전 1인 가구")
 
 @st.cache_data
 def load_and_transform_shapefile(url):
