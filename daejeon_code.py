@@ -33,7 +33,7 @@ except Exception as e:
 # 지도 생성
 if 'gdf' in locals():
     center = [gdf.geometry.centroid.y.mean(), gdf.geometry.centroid.x.mean()]
-    m = folium.Map(location=center, zoom_start=14)
+    m = folium.Map(location=center, zoom_start=10)
 
     # GeoDataFrame을 folium으로 추가
     folium.GeoJson(
