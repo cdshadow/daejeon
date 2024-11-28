@@ -85,5 +85,5 @@ if 'gdf_daejeon' in locals() and 'gdf_grid' in locals():
     # 레이어 컨트롤 추가
     folium.LayerControl().add_to(m)
 
-    # Streamlit에 지도 표시
-    st_folium(m, width=700, height=500)
+    # Streamlit에 지도 표시 (화면에 꽉 차게)
+    st_folium(m, width=1200, height=800)  # 지도 크기를 크게 설정
