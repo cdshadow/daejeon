@@ -55,8 +55,8 @@ if 'gdf_daejeon' in locals() and 'gdf_grid' in locals():
         name="One Person Grid",
         style_function=lambda x: {
             "fillColor": "yellow",       # 내부 노란색
-            "color": "red",              # 경계선 빨간색
-            "weight": 2,                 # 경계선 두께
+            "color": "black",              # 경계선 빨간색
+            "weight": 1,                 # 경계선 두께
             "fillOpacity": 0.3,          # 내부 투명도
         },
     ).add_to(m)
